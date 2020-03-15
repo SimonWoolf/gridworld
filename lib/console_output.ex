@@ -1,8 +1,16 @@
 defmodule Gridworld.ConsoleOutput do
-  def display(new_state, v_π, return, grid_height, grid_width) do
+  alias TableRex.Table
+
+  def display(new_state, v_π, return) do
     clear_screen()
     IO.puts("State values:")
-    IO.puts(String.duplicate("-", grid_width * 2 + 1)
+
+    Table.new(v_π)
+    |> Table.put_column_meta(:all, align: :center)
+    |> Table.render!(horizontal_style: :all)
+    |> IO.puts()
+
+    IO.puts("Total return: #{return}")
   end
 
   defp clear_screen do

@@ -6,7 +6,7 @@ defmodule Gridworld do
 
   @grid_height 5
   @grid_width 5
-  @cells for x <- 1..@grid_width, y <- 1..@grid_height, do: {x, y}
+  @cells for x <- 0..@grid_width-1, y <- 0..@grid_height-1, do: {x, y}
   @actions [:n, :s, :e, :w]
   @initial_action_vals @actions
                        |> Enum.map(&{&1, 0})
@@ -17,8 +17,11 @@ defmodule Gridworld do
   def start(_type, _args) do
     # {:ok, agent_pid} =
     #   Gridworld.Agent.start_link()
+    IO.inspect @cells
 
     # the state action values for the random policy
+    # Origin is top left, grid is list of rows, as that's convenient for
+    # drawing the table to the console
     q_π =
       for row <- 1..@grid_height do
         for cell <- 1..@grid_width do
