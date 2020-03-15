@@ -1,0 +1,35 @@
+plan:
+- have a gridworld, 5x5. in each cell only four actions are possible: north, south, east, west
+
+reward for attempting to go outside grid: -1 (and no movement)
+reward for going in any direction from (2, 5): +10, takes the agent to (2, 1)
+reward for going in any direction from (4, 5): +5, takes the agent to (4, 3)
+
+possible task:
+- generate the state values (expected value under a given policy of the subsequent rewards given we're in state s at time t) for each cell, iteratively, for the random policy?
+output both the current state-value function and the movement of a given attempt. (actually there's no attempt, it's continuous -- so we need to have a discount of gamma = 0.9)
+then once we have that, can play with runs with a greedy policy.
+
+question for greedy policy: do we encode the state-action graph, ie knowledge of what north etc. do in the policy (albeit without reward weights)? ie that 'north' on 0,1 goes to 0,2? or do we discover that by trying?
+as a start, lets hardcode the state-action graph. so greedy policy knows which states will (potentially) result from which actions, and is just trying to discover their value.
+Actually no -- let's do this properly; at each timestep, we're told the state S_t and the reward R_t for the previous action, and need to select an action A_t.
+
+(or generate with epsilon-greedy? that'd give a different grid -- the grid on page 65; that's fine. simulated annealing?)
+
+Question:
+
+(then do the linear algebra to calculate it exactly? or not bother)
+
+
+so:
+- 2d array of state-values, per policy, initialized to 0
+or maybe we store the action-value function, q_*? the value of each action in a given state. And then have the state-value function be derived from that -- derivable for both policies.
+actually yeah! That means we don't need to encode any knowledge of the dynamics of the system (the agent doesn't have to know how to get from one state to another)
+well no, the action value is still policy-dependent. But still worth doing for the dynamics point.
+- policies: random, greedy
+- for random policy, when we go to a square and get a reward, the previous square we were at has its state value reward updated by 0.25 (four actions) * 0.9 (gamma) * reward
+- for epsilon-greedy policy, the previous square has its state updated by 0.9 (gamma) * reward. It's theoretically choosing the optimum action each time, deterministically, so no need to downweight by chance of choosing.
+- or select an epsilon at startup time, where 0 is greedy, and 1 is random?
+
+TODO
+keep a running total of the value grid?  v = sum over actions of (p(action) * q_pi(state, action)

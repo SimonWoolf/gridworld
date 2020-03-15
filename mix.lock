@@ -1,0 +1,3 @@
+%{
+  "table_rex": {:hex, :table_rex, "2.0.0", "712783cbc2decb4d644d2ab8ad9315294f960c41b2cf0539308164922e352084", [:mix], [], "hexpm", "b183ff68abe9ace8764af4c2828767865d2c854d1d6f8cfd3660218166ed89a1"},
+}
